@@ -1,3 +1,5 @@
+// https://rosettacode.org/wiki/K-d_tree#Scala
+
 package airportmatching
 
 object KDTree {
@@ -50,12 +52,4 @@ object KDTree {
     (a zip b)
       .find(c => num.compare(c._1, c._2) != 0).map(c => num.compare(c._1, c._2))
       .getOrElse(0)
-}
-
-object KDTreeTest extends App {
-
-  val data = List(List(2,3), List(5,4), List(9,6), List(4,7), List(8,1), List(7,2))
-  KDTree(data).foreach(tree =>
-    println(tree.nearest(List(9,2)).to)
-  )
 }
