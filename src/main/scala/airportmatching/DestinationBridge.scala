@@ -1,10 +1,12 @@
 package airportmatching
 
+import scala.util.chaining.scalaUtilChainingOps
 import scala.collection.mutable.ArrayBuffer
+import cats.effect.IO
 
 trait DestinationBridge[A] {
 
-  def write(item: A): Unit
+  def write(item: A): IO[Unit]
 }
 
 class LogDestinationBridge[A](val batchSize: Int = 1000) extends DestinationBridge[A] {
@@ -13,15 +15,18 @@ class LogDestinationBridge[A](val batchSize: Int = 1000) extends DestinationBrid
 
   private object FakeDB {
 
-    def write(a: IterableOnce[A]): Unit =
-      println(Iterator.from(1).zip(a).mkString(": "))
+    def write(a: IterableOnce[A]): IO[Unit] =
+      IO {
+        println(Iterator.from(1).zip(a).mkString(": "))
+      }
   }
 
-  def write(item: A): Unit = {
+  def write(item: A): IO[Unit] = {
     this.batch += item
-    if (this.batch.size >= batchSize) {
-      FakeDB.write(this.batch.iterator)
-      this.batch.clear
-    }
+    val newBatch = this.batch.toList
+    if (this.batch.size >= batchSize)
+      FakeDB.write(newBatch.iterator).tap(_ => this.batch.clear)
+    else
+      IO.pure(())
   }
 }

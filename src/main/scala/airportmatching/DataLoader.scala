@@ -1,13 +1,13 @@
 package airportmatching
 
+import cats.effect.IO
 import utils.FileUtils
 
 object DataLoader {
 
-  def hydrateArtemis: Option[ArtemisNode] =
+  def hydrateArtemis: IO[ArtemisNode] =
     FileUtils
       .readFile("src/main/resources/data/optd-airports-sample.csv")
-      .toOption
       .map(
         _
           .drop(1)
@@ -17,5 +17,5 @@ object DataLoader {
           })
           .toList
       )
-      .flatMap(Artemis(_, depth=8))
+      .map(Artemis(_, depth=8).get)
 }
