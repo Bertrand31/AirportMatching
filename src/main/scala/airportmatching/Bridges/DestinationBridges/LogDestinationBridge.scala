@@ -6,13 +6,13 @@ import cats.effect.IO
 
 object FakeDB {
 
-  def write(batch: IterableOnce[_]): IO[Unit] =
+  def write(batch: Seq[_]): IO[Unit] =
     IO {
-      println(Iterator.from(1).zip(batch).mkString(": "))
+      println(batch.mkString("\n"))
     }
 }
 
-class LogDestinationBridge[A](val batchSize: Int = 1000) extends DestinationBridge[A] {
+class LogDestinationBridge[A](val batchSize: Int = 100) extends DestinationBridge[A] {
 
   private val batch = new ArrayBuffer[A](batchSize)
 
