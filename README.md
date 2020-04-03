@@ -55,8 +55,8 @@ It provides `Θ(n log² n)` time complexity for build (in our case, only perform
 
 ## Performance
 
-On a warm JVM, finding the nearest aiport takes **649ns**.
-Processing a **million record** takes **710ms** (which is roughly a million times the time it takes to query the KDTree, plus some overhead likely due to secondary operations like formatting of the
+On a warm JVM, finding the nearest aiport takes **649 nanoseconds**.
+Processing a **million record** takes **710 milliseconds** (which is roughly a million times the time it takes to query the KDTree, plus some overhead likely due to secondary operations like formatting of the
 output).
 
 ## Licensing
