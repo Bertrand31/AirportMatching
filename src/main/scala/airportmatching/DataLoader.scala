@@ -13,7 +13,7 @@ object DataLoader {
           .drop(1)
           .map(row => {
             val Array(id, lat, long) = row split ','
-            ((lat.toFloat, long.toFloat), id)
+            (Point((lat.toFloat, long.toFloat)), id)
           })
           .toList
       )

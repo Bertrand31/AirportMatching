@@ -2,7 +2,12 @@ package airportmatching
 
 import scala.collection.mutable.ArrayBuffer
 
-class DestinationBridge[A](val batchSize: Int = 1000) {
+trait DestinationBridge[A] {
+
+  def write(item: A): Unit
+}
+
+class LogDestinationBridge[A](val batchSize: Int = 1000) extends DestinationBridge[A] {
 
   private val batch = new ArrayBuffer[A](batchSize)
 

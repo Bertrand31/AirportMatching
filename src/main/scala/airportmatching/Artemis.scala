@@ -9,7 +9,7 @@ object Artemis {
     if (points.isEmpty) None
     else {
       val axis = depth % 2
-      def getWAxis(t: Point): Float = if (axis === 0) t._1 else t._2
+      def getWAxis(t: Point): Float = if (axis === 0) t.x else t.y
       val sorted = points.sortBy(t => getWAxis(t._1))
       val median = getWAxis(sorted(sorted.size / 2)._1)
       val (left, right) = sorted.partition(v => getWAxis(v._1) < median)
@@ -17,10 +17,10 @@ object Artemis {
     }
 
   def distSq(a: Point, b: Point): Double =
-    Math.pow(a._1 - b._1, 2) + Math.pow(a._2 - b._2, 2)
+    Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2)
 
   def compare(a: Point, b: Point): Int =
-    (a._1 compare b._1, a._2 compare b._2) match {
+    (a.x compare b.x, a.y compare b.y) match {
       case (0, 0)         => 0
       case (xDiff, yDiff) => if (xDiff =!= 0) xDiff else yDiff
     }
