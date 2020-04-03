@@ -1,6 +1,6 @@
-# AirportMatching
+# Airport Matching
 
-## Statement of purpose
+## Statement of purpose
 
 The goal of this project is to build a small service consuming rows representing users and their locationn, and matching each of them with the nearest airport.
 
@@ -12,9 +12,23 @@ This exercise only focuses on the part "in-between", where we match every user w
 However, the codebase and the abstractions were crafted with a real-world situation in mind ; thus
 why the "Bridge" abstraction was created. [Read more about bridges here](src/main/scala/airportmatching/Bridges/README.md).
 
+## Finding the nearest neighbour of a two-dimensional point
+
+Our task can be summed up as such: we need to find the nearest neigbour of a two-dimensional point.
+
+It is important to note that our dataset (the world's airports) is not only small, but likely to
+grow only marginally in the forseable future. This means that we can confidently fit it in memory,
+and trade memory use to get as much speed as we can for our nearest neighbour queries.
+
+The solution that was picked is to use a KD-Tree, but simplified and now tightly coupled to our
+use-case: it only supports the types we need and operates with two-dimensional points. Thus, we
+get maximum performance and [a rather simple implementation](src/main/scala/airportmatching/Artemis.scala).
+
+It provides `Θ(n log² n)` time complexity for build (in our case, only performed once upon boot), and nearest-neighbour search in `Θ(log n)`.
+
 ## Performance
 
-710ms per million record
+On a warm JVM: 710ms per million records
 
 ## Licensing
 
