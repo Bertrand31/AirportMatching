@@ -5,7 +5,7 @@ class KDTreeSpec extends AnyFlatSpec {
 
   behavior of "KDTree"
 
-  val data = List(
+  val data: List[((Float, Float), String)] = List(
     ((1, 3), "foo"),
     ((3, 2), "bar"),
     ((3, 1), "baz"),

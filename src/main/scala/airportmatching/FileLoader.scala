@@ -5,7 +5,7 @@ import KDTree.KDNode
 
 object DataLoader {
 
-  def hydrateKDTree: Option[KDNode[Float, String]] =
+  def hydrateKDTree: Option[KDNode] =
     FileUtils
       .readFile("src/main/resources/data/optd-airports-sample.csv")
       .toOption
