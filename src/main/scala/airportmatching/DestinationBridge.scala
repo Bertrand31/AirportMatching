@@ -23,9 +23,8 @@ class LogDestinationBridge[A](val batchSize: Int = 1000) extends DestinationBrid
 
   def write(item: A): IO[Unit] = {
     this.batch += item
-    val newBatch = this.batch.toList
     if (this.batch.size >= batchSize)
-      FakeDB.write(newBatch.iterator).tap(_ => this.batch.clear)
+      FakeDB.write(this.batch.toSeq).tap(_ => this.batch.clear)
     else
       IO.pure(())
   }
