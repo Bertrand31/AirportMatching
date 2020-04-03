@@ -5,14 +5,14 @@ import cats.implicits._
 // Based on https://rosettacode.org/wiki/K-d_tree, and heavily modified for this specific use-case
 object Artemis {
 
-  def apply(points: Seq[Airport], depth: Int = 0): Option[ArtemisNode] =
-    if (points.isEmpty) None
+  def apply(airports: Seq[Airport], depth: Int = 0): Option[ArtemisNode] =
+    if (airports.isEmpty) None
     else {
       val axis = depth % 2
-      def getWAxis(t: Point): Float = if (axis === 0) t.x else t.y
-      val sorted = points.sortBy(t => getWAxis(t._1))
-      val median = getWAxis(sorted(sorted.size / 2)._1)
-      val (left, right) = sorted.partition(v => getWAxis(v._1) < median)
+      def getWAxis(p: Point): Float = if (axis === 0) p.x else p.y
+      val sorted = airports.sortBy(t => getWAxis(t.location))
+      val median = getWAxis(sorted(sorted.size / 2).location)
+      val (left, right) = sorted.partition(v => getWAxis(v.location) < median)
       Some(ArtemisNode(right.head, apply(left, depth + 1), apply(right.tail, depth + 1), axis))
     }
 
@@ -35,7 +35,7 @@ final case class ArtemisNode(
 
   def nearest(to: Point): Nearest = {
     val default = Nearest(value, to)
-    Artemis.compare(to, value._1) match {
+    Artemis.compare(to, value.location) match {
       case 0 => default // exact match
       case t =>
         lazy val bestL = left.fold(default)(_ nearest to)
@@ -47,5 +47,5 @@ final case class ArtemisNode(
 }
 
 final case class Nearest(value: Airport, private val to: Point) {
-  lazy val distSq = Artemis.distSq(value._1, to)
+  lazy val distSq = Artemis.distSq(value.location, to)
 }

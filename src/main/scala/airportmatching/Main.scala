@@ -11,9 +11,8 @@ object Main extends App {
     dataStream <- CSVSourceBridge.read("user-geo-sample.csv").toOption
   } yield {
     dataStream.foreach(user => {
-      val (uid, coordinates) = user
-      val nearest = artemis.nearest(coordinates).value
-      destinationBridge.write(s"uid: $uid, nearest: $nearest")
+      val nearest = artemis.nearest(user.location).value
+      destinationBridge.write(s"uid: ${user.id}, nearest: ${nearest.name}")
     })
   }
 }

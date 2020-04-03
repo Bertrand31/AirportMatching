@@ -6,12 +6,12 @@ import utils.FileUtils
 
 trait SourceBridge {
 
-  def read(documentId: String): Try[Iterator[(String, Point)]]
+  def read(documentId: String): Try[Iterator[User]]
 }
 
 object CSVSourceBridge extends SourceBridge {
 
-  def read(documentId: String): Try[Iterator[(String, Point)]] =
+  def read(documentId: String): Try[Iterator[User]] =
     FileUtils
       .readFile("src/main/resources/data/" |+| documentId)
       .map(
@@ -19,7 +19,7 @@ object CSVSourceBridge extends SourceBridge {
           .drop(1)
           .map(_ split ',')
           .map({
-            case Array(uid, lat, long) => (uid, Point((lat.toFloat, long.toFloat)))
+            case Array(uid, lat, long) => User((uid, Point((lat.toFloat, long.toFloat))))
           })
       )
 }

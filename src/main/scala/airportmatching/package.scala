@@ -8,5 +8,13 @@ package object airportmatching {
     def y = v._2
   }
 
-  type Airport = (Point, String)
+  @newtype case class Airport(v: (String, Point)) {
+    def name = v._1
+    def location = v._2
+  }
+
+  @newtype case class User(v: (String, Point)) {
+    def id = v._1
+    def location = v._2
+  }
 }
