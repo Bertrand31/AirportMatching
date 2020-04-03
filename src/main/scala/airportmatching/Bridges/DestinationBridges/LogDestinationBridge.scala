@@ -4,22 +4,17 @@ import scala.util.chaining.scalaUtilChainingOps
 import scala.collection.mutable.ArrayBuffer
 import cats.effect.IO
 
-trait DestinationBridge[A] {
+object FakeDB {
 
-  def write(item: A): IO[Unit]
+  def write(batch: IterableOnce[_]): IO[Unit] =
+    IO {
+      println(Iterator.from(1).zip(batch).mkString(": "))
+    }
 }
 
 class LogDestinationBridge[A](val batchSize: Int = 1000) extends DestinationBridge[A] {
 
   private val batch = new ArrayBuffer[A](batchSize)
-
-  private object FakeDB {
-
-    def write(a: IterableOnce[A]): IO[Unit] =
-      IO {
-        println(Iterator.from(1).zip(a).mkString(": "))
-      }
-  }
 
   def write(item: A): IO[Unit] = {
     this.batch += item
