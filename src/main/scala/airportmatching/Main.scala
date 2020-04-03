@@ -1,7 +1,7 @@
 package airportmatching
 
 import scala.util.Try
-import scala.collection.mutable.Queue
+import scala.collection.mutable.ArrayBuffer
 import cats.implicits._
 import utils.FileUtils
 
@@ -9,7 +9,9 @@ object Main extends App {
 
   val destinationBridge = new DestinationBridge[String]
 
-  DataLoader.hydrateKDTree.foreach(tree => {
+  val artemis = DataLoader.hydrateArtemis
+
+  artemis.foreach(tree => {
     SourceBridge.read("user-geo-sample.csv").foreach(iterator => {
       iterator.foreach(user => {
         val (uid, coordinates) = user
@@ -22,7 +24,7 @@ object Main extends App {
 
 object SourceBridge {
 
-  def read(filename: String): Try[Iterator[(String, (Float, Float))]] =
+  def read(filename: String): Try[Iterator[(String, Point)]] =
     FileUtils
       .readFile("src/main/resources/data/" |+| filename)
       .map(
@@ -35,17 +37,19 @@ object SourceBridge {
       )
 }
 
-class DestinationBridge[A](private val batch: Queue[A] = Queue.empty[A]) {
+class DestinationBridge[A](val batchSize: Int = 1000) {
+
+  private val batch = new ArrayBuffer[A](batchSize)
 
   private object FakeDB {
     def write(a: IterableOnce[A]): Unit = println(Iterator.from(1).zip(a).mkString(": "))
   }
 
-  def write(item: A, batchSize: Int = 1000): Unit = {
-    batch.enqueue(item)
+  def write(item: A): Unit = {
+    this.batch += item
     if (this.batch.size >= batchSize) {
       FakeDB.write(batch.iterator)
-      batch.clear
+      this.batch.clear
     }
   }
 }

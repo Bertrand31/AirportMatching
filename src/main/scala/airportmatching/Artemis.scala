@@ -5,9 +5,6 @@ import cats.implicits._
 // Based on https://rosettacode.org/wiki/K-d_tree, and heavily modified for my specific use-case
 object Artemis {
 
-  type Point   = (Float, Float)
-  type Airport = (Point, String)
-
   def apply(points: Seq[Airport], depth: Int = 0): Option[ArtemisNode] = {
     val dim = if (points.isEmpty) 0 else 2
     if (points.isEmpty || dim < 1) None

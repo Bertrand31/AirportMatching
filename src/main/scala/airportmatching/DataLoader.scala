@@ -5,7 +5,7 @@ import Artemis.ArtemisNode
 
 object DataLoader {
 
-  def hydrateKDTree: Option[ArtemisNode] =
+  def hydrateArtemis: Option[ArtemisNode] =
     FileUtils
       .readFile("src/main/resources/data/optd-airports-sample.csv")
       .toOption
