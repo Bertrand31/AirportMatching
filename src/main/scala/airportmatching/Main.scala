@@ -5,7 +5,6 @@ import utils.FileUtils
 object Main extends App {
 
   DataLoader.hydrateKDTree.foreach(tree => {
-
     FileUtils.readFile("src/main/resources/data/user-geo-sample.csv").foreach(iterator => {
       iterator.drop(1).foreach(user => {
         val Array(uid, lat, long) = user.split(",")

@@ -1,11 +1,11 @@
 package airportmatching
 
 import utils.FileUtils
-import KDTree.KDNode
+import Artemis.ArtemisNode
 
 object DataLoader {
 
-  def hydrateKDTree: Option[KDNode] =
+  def hydrateKDTree: Option[ArtemisNode] =
     FileUtils
       .readFile("src/main/resources/data/optd-airports-sample.csv")
       .toOption
@@ -18,5 +18,5 @@ object DataLoader {
           })
           .toList
       )
-      .flatMap(KDTree(_, depth=8))
+      .flatMap(Artemis(_, depth=8))
 }

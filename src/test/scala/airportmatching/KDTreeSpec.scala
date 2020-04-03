@@ -1,9 +1,9 @@
 import org.scalatest.flatspec.AnyFlatSpec
-import airportmatching.KDTree
+import airportmatching.Artemis
 
-class KDTreeSpec extends AnyFlatSpec {
+class ArtemisSpec extends AnyFlatSpec {
 
-  behavior of "KDTree"
+  behavior of "the Artemis tree"
 
   val data: List[((Float, Float), String)] = List(
     ((1, 3), "foo"),
@@ -16,7 +16,7 @@ class KDTreeSpec extends AnyFlatSpec {
     ((-34, -4), "airport"),
     ((8, 88), "cdg"),
   )
-  val tree = KDTree(data, depth=8).get
+  val tree = Artemis(data, depth=8).get
 
   it should "return the nearest element correctly" in {
 
