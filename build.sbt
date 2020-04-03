@@ -34,3 +34,5 @@ javaOptions ++= Seq(
   "-Xms2g",
   "-Xmx12g",
 )
+
+enablePlugins(JavaServerAppPackaging)
