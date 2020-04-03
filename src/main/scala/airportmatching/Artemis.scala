@@ -2,13 +2,13 @@ package airportmatching
 
 import cats.implicits._
 
-// Based on https://rosettacode.org/wiki/K-d_tree, and heavily modified for this specific use-case
+// Based on https://rosettacode.org/wiki/K-d_tree, and heavily modified for our specific use-case
 object Artemis {
 
   def apply(airports: Seq[Airport], depth: Int = 0): Option[ArtemisNode] =
     if (airports.isEmpty) None
     else {
-      val axis = depth % 2
+      val axis = depth % 2 // Two dimensional tree
       def getWAxis(p: Point): Float = if (axis === 0) p.x else p.y
       val sorted = airports.sortBy(t => getWAxis(t.location))
       val median = getWAxis(sorted(sorted.size / 2).location)

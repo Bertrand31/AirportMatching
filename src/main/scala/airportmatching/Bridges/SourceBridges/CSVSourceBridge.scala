@@ -14,7 +14,8 @@ object CSVSourceBridge extends SourceBridge {
           .drop(1)
           .map(_ split ',')
           .map({
-            case Array(uid, lat, long) => User((uid, Point((lat.toFloat, long.toFloat))))
+            case Array(userId, lat, long) =>
+              User(userId, Point(lat.toFloat, long.toFloat))
           })
       )
 }
