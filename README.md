@@ -32,11 +32,11 @@ MMMMMMMMMMMMMMMMMMMMMMMx'                     ,KMMMMMMMMMX;                    '
 The goal of this project is to build a small service consuming rows representing users and their location, and matching each of them with the nearest airport.
 
 For the purpose of this demonstration, we will be consuming rows from a CSV file, and printing them
-to stdout. In a real-world setting, this service would likely consume a stream (Kafka, Kinesis, RabbitMQ, etc.) and store its results in a storage medium such as a database (for example Cassandra) or
-a filesystem.
+to stdout. In a real-world setting, this service would likely consume a stream (Kafka, Kinesis, RabbitMQ, etc.) and write its results to storage medium such as a database (for example Cassandra) or a
+filesystem.
 
 This exercise only focuses on the part "in-between", where we match every user with an airport.
-However, the codebase and the abstractions were crafted with a real-world situation in mind ; thus
+However, the codebase and the abstractions were crafted with a real-world situation in mind ; hence
 why the "Bridge" abstraction was created. [Read more about bridges here](src/main/scala/airportmatching/Bridges/README.md).
 
 ## Finding the nearest neighbour of a two-dimensional point
@@ -56,6 +56,7 @@ It provides `Θ(n log² n)` time complexity for build (in our case, only perform
 ## Performance
 
 On a warm JVM, finding the nearest aiport takes **649 nanoseconds**.
+
 Processing a **million record** takes **710 milliseconds** (which is roughly a million times the time it takes to query the KDTree, plus some overhead likely due to secondary operations like formatting of the
 output).
 
