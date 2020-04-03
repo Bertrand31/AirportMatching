@@ -1,3 +1,6 @@
+## Performance
+710ms per million record
+
 ## Licensing
 
 * `user-geo-sample.csv.gz`
