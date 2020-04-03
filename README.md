@@ -22,7 +22,7 @@ and trade memory use to get as much speed as we can for our nearest neighbour qu
 
 The solution that was picked is to use a KD-Tree, but simplified and now tightly coupled to our
 use-case: it only supports the types we need and operates with two-dimensional points. Thus, we
-get maximum performance and [a rather simple implementation](src/main/scala/airportmatching/Artemis.scala).
+get maximum performance and [a rather simple implementation](src/main/scala/airportmatching/Artemis.scala). It was named after [Artemis](https://upload.wikimedia.org/wikipedia/commons/2/2a/Diane_de_Versailles_Leochares_2.jpg), the Greek goddess of the hunt.
 
 It provides `Θ(n log² n)` time complexity for build (in our case, only performed once upon boot), and nearest-neighbour search in `Θ(log n)`.
 
