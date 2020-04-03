@@ -6,8 +6,6 @@ object Main extends App {
 
   val destinationBridge = new LogDestinationBridge[String]
 
-  val artemis = DataLoader.hydrateArtemis
-
   DataLoader.hydrateArtemis.flatMap(artemis =>
     CSVSourceBridge.read("user-geo-sample.csv").flatMap(
       _
