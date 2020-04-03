@@ -16,13 +16,12 @@ object Artemis {
       Some(ArtemisNode(right.head, apply(left, depth + 1), apply(right.tail, depth + 1), axis))
     }
 
-  // Numeric utilities
-  def distsq(a: Point, b: Point): Double =
+  def distSq(a: Point, b: Point): Double =
     Math.pow(a._1 - b._1, 2) + Math.pow(a._2 - b._2, 2)
 
   def compare(a: Point, b: Point): Int =
     (a._1 compare b._1, a._2 compare b._2) match {
-      case (0, 0) => 0
+      case (0, 0)         => 0
       case (xDiff, yDiff) => if (xDiff =!= 0) xDiff else yDiff
     }
 }
@@ -39,14 +38,14 @@ final case class ArtemisNode(
     Artemis.compare(to, value._1) match {
       case 0 => default // exact match
       case t =>
-        lazy val bestL = left.map(_ nearest to).getOrElse(default)
-        lazy val bestR = right.map(_ nearest to).getOrElse(default)
+        lazy val bestL = left.fold(default)(_ nearest to)
+        lazy val bestR = right.fold(default)(_ nearest to)
         val branch1 = if (t < 0) bestL else bestR
-        if (branch1.distsq < default.distsq) branch1 else default
+        if (branch1.distSq < default.distSq) branch1 else default
     }
   }
 }
 
 final case class Nearest(value: Airport, private val to: Point) {
-  lazy val distsq = Artemis.distsq(value._1, to)
+  lazy val distSq = Artemis.distSq(value._1, to)
 }
