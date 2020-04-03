@@ -6,24 +6,24 @@ import cats.implicits._
 
 object KDTree {
 
-  def apply[T](points: Seq[Seq[T]], depth: Int = 0)(implicit num: Numeric[T]): Option[KDNode[T]] = {
-    val dim = points.headOption.map(_.size) getOrElse 0
+  def apply[N, A](points: Seq[(Seq[N], A)], depth: Int = 0)(implicit num: Numeric[N]): Option[KDNode[N, A]] = {
+    val dim = points.headOption.map(_._1.size) getOrElse 0
     if (points.isEmpty || dim < 1) None
     else {
       val axis = depth % dim
-      val sorted = points.sortBy(_(axis))
-      val median = sorted(sorted.size / 2)(axis)
-      val (left, right) = sorted.partition(v => num.lt(v(axis), median))
+      val sorted = points.sortBy(_._1(axis))
+      val median = sorted(sorted.size / 2)._1(axis)
+      val (left, right) = sorted.partition(v => num.lt(v._1(axis), median))
       Some(KDNode(right.head, apply(left, depth + 1), apply(right.tail, depth + 1), axis))
     }
   }
 
-  case class KDNode[T](value: Seq[T], left: Option[KDNode[T]], right: Option[KDNode[T]], axis: Int)
-                      (implicit num: Numeric[T]) {
+  case class KDNode[N, A](value: (Seq[N], A), left: Option[KDNode[N, A]], right: Option[KDNode[N, A]], axis: Int)
+                      (implicit num: Numeric[N]) {
 
-    def nearest(to: Seq[T]): Nearest[T] = {
-      val default = Nearest(value, to)
-      compare(to, value) match {
+    def nearest(to: Seq[N]): Nearest[N, A] = {
+      val default = Nearest[N, A](value, to)
+      compare(to, value._1) match {
         case 0 => default // exact match
         case t =>
           lazy val bestL = left.map(_ nearest to).getOrElse(default)
@@ -34,17 +34,17 @@ object KDTree {
     }
   }
 
-  case class Nearest[T](value: Seq[T], to: Seq[T])(implicit num: Numeric[T]) {
-    lazy val distsq = KDTree.distsq(value, to)
+  case class Nearest[N, A](value: (Seq[N], A), to: Seq[N])(implicit num: Numeric[N]) {
+    lazy val distsq = KDTree.distsq(value._1, to)
   }
 
   // Numeric utilities
-  private def distsq[T](a: Seq[T], b: Seq[T])(implicit num: Numeric[T]): T =
+  private def distsq[N](a: Seq[N], b: Seq[N])(implicit num: Numeric[N]): N =
     (a zip b)
       .map(c => num.times(num.minus(c._1, c._2), num.minus(c._1, c._2)))
       .sum
 
-  private def compare[T](a: Seq[T], b: Seq[T])(implicit num: Numeric[T]): Int =
+  private def compare[N](a: Seq[N], b: Seq[N])(implicit num: Numeric[N]): Int =
     (a zip b)
       .map(c => num.compare(c._1, c._2))
       .find(_ =!= 0)
