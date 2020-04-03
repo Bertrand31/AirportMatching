@@ -1,7 +1,6 @@
 package airportmatching
 
 import utils.FileUtils
-import Artemis.ArtemisNode
 
 object DataLoader {
 
