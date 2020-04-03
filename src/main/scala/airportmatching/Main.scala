@@ -4,7 +4,7 @@ import utils.FileUtils
 
 object Main extends App {
 
-  FileLoader.loadData.foreach(tree => {
+  DataLoader.hydrateKDTree.foreach(tree => {
 
     FileUtils.readFile("src/main/resources/data/user-geo-sample.csv").foreach(iterator => {
       iterator.drop(1).foreach(user => {

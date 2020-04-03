@@ -2,6 +2,8 @@
 
 package airportmatching
 
+import cats.implicits._
+
 object KDTree {
 
   def apply[T](points: Seq[Seq[T]], depth: Int = 0)(implicit num: Numeric[T]): Option[KDNode[T]] = {
@@ -16,40 +18,35 @@ object KDTree {
     }
   }
 
-  case class KDNode[T](value: Seq[T], left: Option[KDNode[T]], right: Option[KDNode[T]], axis: Int)(implicit num: Numeric[T]) {
+  case class KDNode[T](value: Seq[T], left: Option[KDNode[T]], right: Option[KDNode[T]], axis: Int)
+                      (implicit num: Numeric[T]) {
+
     def nearest(to: Seq[T]): Nearest[T] = {
-      val default = Nearest(value, to, Set(this))
+      val default = Nearest(value, to)
       compare(to, value) match {
         case 0 => default // exact match
         case t =>
           lazy val bestL = left.map(_ nearest to).getOrElse(default)
           lazy val bestR = right.map(_ nearest to).getOrElse(default)
           val branch1 = if (t < 0) bestL else bestR
-          val best = if (num.lt(branch1.distsq, default.distsq)) branch1 else default
-          val splitDist = num.minus(to(axis), value(axis))
-          if (num.lt(num.times(splitDist, splitDist), best.distsq)) {
-            val branch2 = if (t < 0) bestR else bestL
-            val visited = branch2.visited ++ best.visited + this
-            if (num.lt(branch2.distsq, best.distsq))
-              branch2.copy(visited = visited)
-              else best.copy(visited = visited)
-          } else best.copy(visited = best.visited + this)
+          if (num.lt(branch1.distsq, default.distsq)) branch1 else default
       }
     }
   }
 
-  case class Nearest[T](value: Seq[T], to: Seq[T], visited: Set[KDNode[T]] = Set[KDNode[T]]())(implicit num: Numeric[T]) {
+  case class Nearest[T](value: Seq[T], to: Seq[T])(implicit num: Numeric[T]) {
     lazy val distsq = KDTree.distsq(value, to)
   }
 
   // Numeric utilities
-  private def distsq[T](a: Seq[T], b: Seq[T])(implicit num: Numeric[T]) =
+  private def distsq[T](a: Seq[T], b: Seq[T])(implicit num: Numeric[T]): T =
     (a zip b)
       .map(c => num.times(num.minus(c._1, c._2), num.minus(c._1, c._2)))
       .sum
 
   private def compare[T](a: Seq[T], b: Seq[T])(implicit num: Numeric[T]): Int =
     (a zip b)
-      .find(c => num.compare(c._1, c._2) != 0).map(c => num.compare(c._1, c._2))
+      .map(c => num.compare(c._1, c._2))
+      .find(_ =!= 0)
       .getOrElse(0)
 }

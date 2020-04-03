@@ -3,9 +3,9 @@ package airportmatching
 import utils.FileUtils
 import KDTree.KDNode
 
-object FileLoader {
+object DataLoader {
 
-  def loadData: Option[KDNode[Float]] =
+  def hydrateKDTree: Option[KDNode[Float]] =
     FileUtils.readFile("src/main/resources/data/optd-airports-sample.csv")
       .toOption
       .flatMap(iterator => {
