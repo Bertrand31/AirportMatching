@@ -8,12 +8,15 @@ object Main extends App {
 
   val artemis = DataLoader.hydrateArtemis
 
-  DataLoader.hydrateArtemis.flatMap(artemis => {
-    CSVSourceBridge.read("user-geo-sample.csv").flatMap(dataStream => {
-      dataStream.map(user => {
-        val nearest = artemis.nearest(user.location).value
-        destinationBridge.write(s"uid: ${user.id}, nearest: ${nearest.name}")
-      }).toList.sequence
-    })
-  }).unsafeRunAsync({ _ => })
+  DataLoader.hydrateArtemis.flatMap(artemis =>
+    CSVSourceBridge.read("user-geo-sample.csv").flatMap(
+      _
+        .map(user => {
+          val nearest = artemis.nearest(user.location).value
+          destinationBridge.write(s"uid: ${user.id}, nearest: ${nearest.name}")
+        })
+        .to(LazyList)
+        .sequence
+    )
+  ).unsafeRunAsync({ _ => })
 }
