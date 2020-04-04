@@ -22,9 +22,9 @@ class ArtemisSpec extends AnyFlatSpec {
 
     val tree = Artemis(data, depth=8).get
 
-    assert(tree.nearest(Point(3f, 3f)) == Airport("bar", Point(3f, 2f)))
-    assert(tree.nearest(Point(-3f, -5f)) == Airport("wat", Point(0f, 0f)))
-    assert(tree.nearest(Point(-30f, -5f)) == Airport("airport", Point(-34f, -4f)))
+    assert(tree.nearest(Point(3f, 3f)) === Airport("bar", Point(3f, 2f)))
+    assert(tree.nearest(Point(-3f, -5f)) === Airport("wat", Point(0f, 0f)))
+    assert(tree.nearest(Point(-30f, -5f)) === Airport("airport", Point(-34f, -4f)))
   }
 
   val airports: List[Airport] = List(
