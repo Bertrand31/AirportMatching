@@ -27,6 +27,14 @@ MMMMMMMMMMMMMMMMMMMMMMMWKo,                   .xWMMMMMMMMk.                  ,oK
 MMMMMMMMMMMMMMMMMMMMMMMx'                     ,KMMMMMMMMMX;                    'xNMMMMMMMMMMMMMMMMMMMMMMMMM
 ```
 
+- [Statement of purpose](#statement-of-purpose)
+- [Problem summary](#problem-summary)
+- [Performance](#performance)
+- [Misc](#misc)
+- [Future developments](#future-developments)
+- [Packaging for production](#packaging-for-production)
+- [Licensing](#licensing)
+
 ## Statement of purpose
 
 The goal of this project is to build a small service consuming rows representing users and their
@@ -41,7 +49,7 @@ This exercise only focuses on the part "in-between", where we match every user w
 However, the codebase and the abstractions were crafted with a real-world situation in mind ; hence
 why the "Bridge" abstraction was created. [Read more about bridges here](src/main/scala/airportmatching/Bridges/README.md).
 
-## Finding the nearest neighbour of a two-dimensional point
+## Problem summary
 
 Our task can be summed up as such: we need to find the nearest neigbour of a two-dimensional point (with a little twist, more on that later).
 
@@ -80,6 +88,29 @@ more specific type, so that we can enforce more type safety throughout the codeb
 achieve that using a regular case class, however a newtype incurs no runtime overhead at all,
 because it is removed altogether at compile time, and replaced by the underlying type: thus, we get
 the best of both worlds. Type safety at no runtime cost.
+
+## Future developments
+
+TODO:
+- make actual bridges
+- investigate parallelism
+
+## Packaging for production
+
+First, clone the AirportMatching repo to a directory of your choice and `cd` into it.
+Then, in order to generate a binary, run the following:
+```
+sbt universal:packageBin
+```
+It will generate a zip here:
+```
+./target/universal/airportmatching-%VERSION_NUMBER%.zip
+```
+This zip can now be shipped on the server. Once it is unzipped, Harvester can be started from
+inside the resulting folder with:
+```
+./bin/airportmatching
+```
 
 ## Licensing
 
