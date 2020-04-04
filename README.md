@@ -82,6 +82,9 @@ Processing a **million record** takes **710 milliseconds** (which is roughly a m
 takes to query the KDTree, plus some overhead likely due to secondary operations like formatting of
 the output).
 
+Note: If you run the service with its example use-case right now, you'll notice it takes much longer
+than that to finish. This is due to the I/O operations (reading the CSV and writing to `stdout`).
+
 ## Misc
 
 You'll notice that I'm using the `scala-newtype` library to wrap some simple types. It provides an
@@ -91,11 +94,24 @@ achieve that using a regular case class, however a newtype incurs no runtime ove
 because it is removed altogether at compile time, and replaced by the underlying type: thus, we get
 the best of both worlds. Type safety at no runtime cost.
 
+Also, the sample implementation of the destination bridge uses batching: it accumulates rows until
+a predefined threshold before flushing it to `stdout`. This is to exemplify a behaviour we might
+need in production for better writing performance.
+
 ## Future developments
 
-TODO:
-- make actual bridges
-- investigate parallelism
+In order to make this service actually useful and ready for production, we would first have to
+implement some actual bridges instead of the sample ones I've provided.
+
+Once that is done, we'd be able to also get rid of most of the code inside of [Main.scala](src/main/scala/airportmatching/Main.scala). The code there was provided as an example, to manually run our
+sample use case of pumping data out of a CSV, to print it progressively to `stdout`.
+
+In a real-life setting, the main function would likely instanciate a source bridge that would
+produce a stream, which would be piped to the destination bridge.
+
+Down the line, we may also have to investigate parallelism, to be able to handle bigger amounts of
+input data. But for now, considering the volumes of data we're dealing with, it would probably cause
+more harm than good.
 
 ## Packaging for production
 
