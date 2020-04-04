@@ -109,6 +109,10 @@ sample use case of pumping data out of a CSV, to print it progressively to `stdo
 In a real-life setting, the main function would likely instanciate a source bridge that would
 produce a stream, which would be piped to the destination bridge.
 
+With real bridges in place, we would also be able to write proper integration and end-to-end tests,
+which are lacking now, as I've chosen to write tests only for the parts with *actual code*, not
+sample implementations.
+
 Down the line, we may also have to investigate parallelism, to be able to handle bigger amounts of
 input data. But for now, considering the volumes of data we're dealing with, it would probably cause
 more harm than good.
