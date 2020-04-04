@@ -19,6 +19,5 @@ object Main extends IOApp {
             .toList
             .sequence
         )
-      )
-      .as(ExitCode.Success)
+      ).as(ExitCode.Success)
 }

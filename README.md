@@ -43,7 +43,7 @@ why the "Bridge" abstraction was created. [Read more about bridges here](src/mai
 
 ## Finding the nearest neighbour of a two-dimensional point
 
-Our task can be summed up as such: we need to find the nearest neigbour of a two-dimensional point.
+Our task can be summed up as such: we need to find the nearest neigbour of a two-dimensional point (with a little twist, more on that later).
 
 It is important to note that our dataset (the world's airports) is not only small, but likely to
 grow only marginally in the forseable future. This means that we can confidently fit it in memory,
@@ -55,9 +55,11 @@ get maximum performance and [a rather simple implementation](src/main/scala/airp
 It was named after [Artemis](https://upload.wikimedia.org/wikipedia/commons/2/2a/Diane_de_Versailles_Leochares_2.jpg),
 the Greek goddess of the hunt, in reference to the task at hand.
 
-Moreover, this custom implementation does not simple measure the distance between two
-two-dimensional points: it uses the Haversine formula and the Earth radius to get a more accurate
-measurement of the distance between a user and the world's airports.
+So far so good, however here we are not talking about simple 2D points ; we are talking about GPS
+coordinates, which are coordinates on a sphere (the Earth). Hence, this custom implementation does
+not simple measure the distance between two two-dimensional points: it uses the Haversine formula
+and the Earth radius to get a more accurate measurement of the distance between a user and the
+world's airports.
 
 The resulting data structure provides `Θ(n log² n)` time complexity for construction (in our case,
 only performed once upon boot), and nearest-neighbour search in `Θ(log n)`.
