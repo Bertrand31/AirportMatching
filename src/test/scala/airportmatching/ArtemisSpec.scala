@@ -20,7 +20,7 @@ class ArtemisSpec extends AnyFlatSpec {
 
   it should "return the nearest element correctly" in {
 
-    val tree = Artemis(data, depth=8).get
+    val tree = Artemis(data)
 
     assert(tree.nearest(Point(3f, 3f)) === Airport("bar", Point(3f, 2f)))
     assert(tree.nearest(Point(-3f, -5f)) === Airport("wat", Point(0f, 0f)))
@@ -34,7 +34,7 @@ class ArtemisSpec extends AnyFlatSpec {
 
   it should "return the nearest airport" in {
 
-    val tree = Artemis(airports, depth=8).get
+    val tree = Artemis(airports)
     val user1 = User("test", Point(44.9748f, 5.0264f))
     assert(tree.nearest(user1.location).name === "FEL")
 

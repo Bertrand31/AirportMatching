@@ -5,9 +5,11 @@ import utils.FileUtils
 
 object DataLoader {
 
+  private val AirportsFile = "src/main/resources/data/optd-airports-sample.csv"
+
   def hydrateArtemis: IO[ArtemisNode] =
     FileUtils
-      .readFile("src/main/resources/data/optd-airports-sample.csv")
+      .readFile(AirportsFile)
       .map(
         _
           .drop(1)
@@ -17,5 +19,5 @@ object DataLoader {
           })
           .toList
       )
-      .map(Artemis(_, depth=8).get)
+      .map(Artemis(_))
 }

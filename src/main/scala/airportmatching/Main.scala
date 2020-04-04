@@ -5,7 +5,7 @@ import cats.implicits._
 
 object Main extends IOApp {
 
-  val destinationBridge = new LogDestinationBridge[String]
+  private val destinationBridge = new LogDestinationBridge[String]
 
   def run(args: List[String]): IO[ExitCode] =
     DataLoader.hydrateArtemis

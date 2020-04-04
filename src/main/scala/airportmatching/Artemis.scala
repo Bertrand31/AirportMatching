@@ -6,7 +6,7 @@ import utils.GeoUtils
 // Inspired by https://rosettacode.org/wiki/K-d_tree, and heavily modified for our specific use-case
 object Artemis {
 
-  def apply(airports: Seq[Airport], depth: Int = 0): Option[ArtemisNode] =
+  private def build(airports: Seq[Airport], depth: Int = 0): Option[ArtemisNode] =
     if (airports.isEmpty) None
     else {
       val axis = depth % 2 // Two dimensional tree
@@ -14,8 +14,10 @@ object Artemis {
       val sorted = airports.sortBy(t => getWAxis(t.location))
       val median = getWAxis(sorted(sorted.size / 2).location)
       val (left, right) = sorted.partition(v => getWAxis(v.location) < median)
-      Some(ArtemisNode(right.head, apply(left, depth + 1), apply(right.tail, depth + 1), axis))
+      Some(ArtemisNode(right.head, build(left, depth + 1), build(right.tail, depth + 1), axis))
     }
+
+  def apply(airports: Seq[Airport]): ArtemisNode = build(airports).get
 
   def compare(a: Point, b: Point): Int =
     (a.lat compare b.lat, a.lon compare b.lon) match {
