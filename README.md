@@ -32,7 +32,7 @@ MMMMMMMMMMMMMMMMMMMMMMMx'                     ,KMMMMMMMMMX;                    '
 - [Statement of purpose](#statement-of-purpose)
 - [Problem summary](#problem-summary)
 - [Performance](#performance)
-- [Misc](#misc)
+- [Miscellaneous](#miscellaneous)
 - [Future developments](#future-developments)
 - [Packaging for production](#packaging-for-production)
 - [Licensing](#licensing)
@@ -85,7 +85,7 @@ the output).
 Note: If you run the service with its example use-case right now, you'll notice it takes much longer
 than that to finish. This is due to the I/O operations (reading the CSV and writing to `stdout`).
 
-## Misc
+## Miscellaneous
 
 You'll notice that I'm using the `scala-newtype` library to wrap some simple types. It provides an
 equivalent of Haskell's `newtype` in Scala. The idea of a `newtype` is to wrap a type into another,
@@ -103,8 +103,7 @@ need in production for better writing performance.
 In order to make this service actually useful and ready for production, we would first have to
 implement some actual bridges instead of the sample ones I've provided.
 
-Once that is done, we'd be able to also get rid of most of the code inside of [Main.scala](src/main/scala/airportmatching/Main.scala). The code there was provided as an example, to manually run our
-sample use case of pumping data out of a CSV, to print it progressively to `stdout`.
+Once that is done, we'd be able to also get rid of most of the code inside of [Main.scala](src/main/scala/airportmatching/Main.scala). The code there was provided as an example, to manually pump data out of a CSV and then print the result progressively to `stdout`.
 
 In a real-life setting, the main function would likely instanciate a source bridge that would
 produce a stream, which would be piped to the destination bridge.
