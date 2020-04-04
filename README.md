@@ -55,8 +55,12 @@ get maximum performance and [a rather simple implementation](src/main/scala/airp
 It was named after [Artemis](https://upload.wikimedia.org/wikipedia/commons/2/2a/Diane_de_Versailles_Leochares_2.jpg),
 the Greek goddess of the hunt, in reference to the task at hand.
 
-It provides `Θ(n log² n)` time complexity for build (in our case, only performed once upon boot),
-and nearest-neighbour search in `Θ(log n)`.
+Moreover, this custom implementation does not simple measure the distance between two
+two-dimensional points: it uses the Haversine formula and the Earth radius to get a more accurate
+measurement of the distance between a user and the world's airports.
+
+The resulting data structure provides `Θ(n log² n)` time complexity for construction (in our case,
+only performed once upon boot), and nearest-neighbour search in `Θ(log n)`.
 
 ## Performance
 
