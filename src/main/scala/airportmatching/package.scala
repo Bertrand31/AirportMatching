@@ -5,8 +5,8 @@ import io.estatico.newtype.ops.toCoercibleIdOps
 package object airportmatching {
 
   @newtype case class Point(v: (Float, Float)) {
-    def x: Float = v._1
-    def y: Float = v._2
+    def lat: Float = v._1
+    def lon: Float = v._2
   }
 
   object Point {

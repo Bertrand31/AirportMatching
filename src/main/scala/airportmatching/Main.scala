@@ -10,7 +10,7 @@ object Main extends App {
     CSVSourceBridge.read("user-geo-sample.csv").flatMap(
       _
         .map(user => {
-          val nearest = artemis.nearest(user.location).value
+          val nearest = artemis.nearest(user.location)
           destinationBridge.write(s"user: $user | airport: $nearest")
         })
         .to(LazyList)
