@@ -11,7 +11,7 @@ object Main extends App {
       _
         .map(user => {
           val nearest = artemis.nearest(user.location).value
-          destinationBridge.write(s"uid: ${user.id}, nearest: ${nearest.name}")
+          destinationBridge.write(s"user: $user | airport: $nearest")
         })
         .to(LazyList)
         .sequence

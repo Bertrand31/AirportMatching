@@ -33,7 +33,7 @@ The goal of this project is to build a small service consuming rows representing
 location, and matching each of them with the nearest airport.
 
 For the purpose of this demonstration, we will be consuming rows from a CSV file, and printing them
-to stdout. In a real-world setting, this service would likely consume a stream (Kafka, Kinesis,
+to `stdout`. In a real-world setting, this service would likely consume a stream (Kafka, Kinesis,
 RabbitMQ, etc.) and write its results to storage medium such as a database (for example Cassandra)
 or a filesystem.
 
