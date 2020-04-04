@@ -108,7 +108,7 @@ It will generate a zip here:
 ```
 ./target/universal/airportmatching-%VERSION_NUMBER%.zip
 ```
-This zip can now be shipped on the server. Once it is unzipped, Harvester can be started from
+This zip can now be shipped on the server. Once it is unzipped, this service can be started from
 inside the resulting folder with:
 ```
 ./bin/airportmatching
