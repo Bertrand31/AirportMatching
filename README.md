@@ -29,11 +29,13 @@ MMMMMMMMMMMMMMMMMMMMMMMx'                     ,KMMMMMMMMMX;                    '
 
 ## Statement of purpose
 
-The goal of this project is to build a small service consuming rows representing users and their location, and matching each of them with the nearest airport.
+The goal of this project is to build a small service consuming rows representing users and their
+location, and matching each of them with the nearest airport.
 
 For the purpose of this demonstration, we will be consuming rows from a CSV file, and printing them
-to stdout. In a real-world setting, this service would likely consume a stream (Kafka, Kinesis, RabbitMQ, etc.) and write its results to storage medium such as a database (for example Cassandra) or a
-filesystem.
+to stdout. In a real-world setting, this service would likely consume a stream (Kafka, Kinesis,
+RabbitMQ, etc.) and write its results to storage medium such as a database (for example Cassandra)
+or a filesystem.
 
 This exercise only focuses on the part "in-between", where we match every user with an airport.
 However, the codebase and the abstractions were crafted with a real-world situation in mind ; hence
@@ -49,16 +51,29 @@ and trade memory use to get as much speed as we can for our nearest neighbour qu
 
 The solution that was picked is to use a KD-Tree, but simplified and now tightly coupled to our
 use-case: it only supports the types we need and operates with two-dimensional points. Thus, we
-get maximum performance and [a rather simple implementation](src/main/scala/airportmatching/Artemis.scala). It was named after [Artemis](https://upload.wikimedia.org/wikipedia/commons/2/2a/Diane_de_Versailles_Leochares_2.jpg), the Greek goddess of the hunt, in reference to the task at hand.
+get maximum performance and [a rather simple implementation](src/main/scala/airportmatching/Artemis.scala).
+It was named after [Artemis](https://upload.wikimedia.org/wikipedia/commons/2/2a/Diane_de_Versailles_Leochares_2.jpg),
+the Greek goddess of the hunt, in reference to the task at hand.
 
-It provides `Θ(n log² n)` time complexity for build (in our case, only performed once upon boot), and nearest-neighbour search in `Θ(log n)`.
+It provides `Θ(n log² n)` time complexity for build (in our case, only performed once upon boot),
+and nearest-neighbour search in `Θ(log n)`.
 
 ## Performance
 
 On a warm JVM, finding the nearest aiport takes **649 nanoseconds**.
 
-Processing a **million record** takes **710 milliseconds** (which is roughly a million times the time it takes to query the KDTree, plus some overhead likely due to secondary operations like formatting of the
-output).
+Processing a **million record** takes **710 milliseconds** (which is roughly a million times the time it
+takes to query the KDTree, plus some overhead likely due to secondary operations like formatting of
+the output).
+
+## Misc
+
+You'll notice that I'm using the `scala-newtype` library to wrap some simple types. It provides an
+equivalent of Haskell's `newtype` in Scala. The idea of a `newtype` is to wrap a type into another,
+more specific type, so that we can enforce more type safety throughout the codebase. We could also
+achieve that using a regular case class, however a newtype incurs no runtime overhead at all,
+because it is removed altogether at compile time, and replaced by the underlying type: thus, we get
+the best of both worlds. Type safety at no runtime cost.
 
 ## Licensing
 
@@ -67,8 +82,8 @@ output).
 The longitude, latitude data in this sample was taken from a data-set provided by Maxmind inc.
 This work is licensed under the [Creative CommonsAttribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
 
-This database incorporates [GeoNames](http://www.geonames.org) geographical data, which is made available under the
-[Creative Commons Attribution 3.0 License](http://www.creativecommons.org/licenses/by/3.0/us/).
+This database incorporates [GeoNames](http://www.geonames.org) geographical data, which is made
+available under the [Creative Commons Attribution 3.0 License](http://www.creativecommons.org/licenses/by/3.0/us/).
 
 * `optd-airports-sample.csv.gz`
 
