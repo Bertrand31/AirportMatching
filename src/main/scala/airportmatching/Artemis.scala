@@ -3,7 +3,7 @@ package airportmatching
 import cats.implicits._
 import utils.GeoUtils
 
-// Based on https://rosettacode.org/wiki/K-d_tree, and heavily modified for our specific use-case
+// Inspired by https://rosettacode.org/wiki/K-d_tree, and heavily modified for our specific use-case
 object Artemis {
 
   def apply(airports: Seq[Airport], depth: Int = 0): Option[ArtemisNode] =
