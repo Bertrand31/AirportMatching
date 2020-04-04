@@ -27,6 +27,8 @@ MMMMMMMMMMMMMMMMMMMMMMMWKo,                   .xWMMMMMMMMk.                  ,oK
 MMMMMMMMMMMMMMMMMMMMMMMx'                     ,KMMMMMMMMMX;                    'xNMMMMMMMMMMMMMMMMMMMMMMMMM
 ```
 
+## Table of contents
+
 - [Statement of purpose](#statement-of-purpose)
 - [Problem summary](#problem-summary)
 - [Performance](#performance)
