@@ -41,13 +41,13 @@ final case class Artemis(
 
   private def nearestInternal(to: Point): Nearest = {
     val default = Nearest(value, to)
-    Artemis.compare(to, value.location) match {
-      case 0 => default // exact match
-      case t =>
-        lazy val bestL = left.fold(default)(_ nearestInternal to)
-        lazy val bestR = right.fold(default)(_ nearestInternal to)
-        val branch1 = if (t < 0) bestL else bestR
-        if (branch1.distance < default.distance) branch1 else default
+    val distance = Artemis.compare(to, value.location)
+    if (distance === 0) default // exact match
+    else {
+      lazy val bestL = left.fold(default)(_ nearestInternal to)
+      lazy val bestR = right.fold(default)(_ nearestInternal to)
+      val branch1 = if (distance < 0) bestL else bestR
+      if (branch1.distance < default.distance) branch1 else default
     }
   }
 
