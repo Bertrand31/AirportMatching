@@ -3,27 +3,27 @@ package airportmatching
 import cats.implicits._
 import utils.GeoUtils
 
-// Inspired by https://rosettacode.org/wiki/K-d_tree, and heavily modified for our specific use-case
+// Inspired by https://rosettacode.org/wiki/K-d_tree, and heavily improved and modified
 object Artemis {
 
-  private def build(airports: Seq[Airport], depth: Int = 0): Option[ArtemisNode] =
+  private def build(airports: Seq[Airport], depth: Int): Option[ArtemisNode] =
     if (airports.isEmpty) None
     else {
-      val axis = depth % 2 // Two dimensional tree
-      def getWAxis(p: Point): Float = if (axis === 0) p.lat else p.lon
-      val sorted = airports.sortBy(t => getWAxis(t.location))
-      val (left, median +: right) = sorted.splitAt(sorted.size / 2)
+      val axis = depth % 2 // Two dimensions
+      def getAxisValue(a: Airport): Float = if (axis === 0) a.location.lat else a.location.lon
+      val sorted = airports.sortBy(getAxisValue)
+      val (left, median +: right) = sorted.splitAt(sorted.size / 2 - 1)
       Some(
         ArtemisNode(
-          value=median,
-          left=build(left, depth + 1),
-          right=build(right, depth + 1),
-          axis=axis,
+          value = median,
+          left  = build(left, depth + 1),
+          right = build(right, depth + 1),
+          axis  = axis,
         )
       )
     }
 
-  def apply(airports: Seq[Airport]): ArtemisNode = build(airports).get
+  def apply(airports: Seq[Airport]): ArtemisNode = build(airports, 0).get
 
   def compare(a: Point, b: Point): Int =
     (a.lat compare b.lat, a.lon compare b.lon) match {

@@ -30,15 +30,22 @@ class ArtemisSpec extends AnyFlatSpec {
   val airports: List[Airport] = List(
     Airport("FEL", Point(48.2056f, 11.26614f)),
     Airport("GPA", Point(38.15111f, 21.425556f)),
+    Airport("KSD", Point(59.44472f, 13.3375f)),
+    Airport("NRK", Point(58.58597f, 16.24054f)),
+    Airport("YGK", Point(44.22528f, -76.59694f)),
+    Airport("BVD", Point(-7.083f, 29.73f)),
   )
 
   it should "return the nearest airport" in {
 
     val tree = Artemis(airports)
-    val user1 = User("test", Point(44.9748f, 5.0264f))
-    assert(tree.nearest(user1.location).name === "FEL")
+    val user1 = Point(44.9748f, 5.0264f)
+    assert(tree.nearest(user1).name === "FEL")
 
-    val user2 = User("foo", Point(51.9292f,4.5778f))
-    assert(tree.nearest(user2.location).name === "FEL")
+    val user2 = Point(51.9292f,4.5778f)
+    assert(tree.nearest(user2).name === "FEL")
+
+    val user3 = Point(59.9127f, 10.7461f)
+    assert(tree.nearest(user3).name === "KSD")
   }
 }
