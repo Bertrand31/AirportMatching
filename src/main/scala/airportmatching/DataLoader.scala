@@ -5,11 +5,11 @@ import utils.FileUtils
 
 object DataLoader {
 
-  private val AirportsFile = "src/main/resources/data/optd-airports-sample.csv"
+  private val AirportsFilePath = "src/main/resources/data/optd-airports-sample.csv"
 
   def hydrateArtemis: IO[Artemis] =
     FileUtils
-      .readFile(AirportsFile)
+      .readFile(AirportsFilePath)
       .map(
         _
           .drop(1)
