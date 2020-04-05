@@ -83,7 +83,8 @@ takes to query the KDTree, plus some overhead likely due to secondary operations
 the output).
 
 Note: If you run the service with its example use-case right now, you'll notice it takes much longer
-than that to finish. This is due to the I/O operations (reading the CSV and writing to `stdout`).
+than that to finish. This is due to the time taken to build the KD-Tree, and to the I/O operations
+(reading the CSV and writing to `stdout`).
 
 ## Miscellaneous
 
