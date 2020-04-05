@@ -7,7 +7,7 @@ object DataLoader {
 
   private val AirportsFile = "src/main/resources/data/optd-airports-sample.csv"
 
-  def hydrateArtemis: IO[ArtemisNode] =
+  def hydrateArtemis: IO[Artemis] =
     FileUtils
       .readFile(AirportsFile)
       .map(
