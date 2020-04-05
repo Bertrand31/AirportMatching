@@ -12,9 +12,15 @@ object Artemis {
       val axis = depth % 2 // Two dimensional tree
       def getWAxis(p: Point): Float = if (axis === 0) p.lat else p.lon
       val sorted = airports.sortBy(t => getWAxis(t.location))
-      val median = getWAxis(sorted(sorted.size / 2).location)
-      val (left, right) = sorted.partition(v => getWAxis(v.location) < median)
-      Some(ArtemisNode(right.head, build(left, depth + 1), build(right.tail, depth + 1), axis))
+      val (left, median +: right) = sorted.splitAt(sorted.size / 2)
+      Some(
+        ArtemisNode(
+          value=median,
+          left=build(left, depth + 1),
+          right=build(right, depth + 1),
+          axis=axis,
+        )
+      )
     }
 
   def apply(airports: Seq[Airport]): ArtemisNode = build(airports).get
