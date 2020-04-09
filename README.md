@@ -106,7 +106,7 @@ implement some actual bridges instead of the sample ones I've provided.
 
 Once that is done, we'd be able to also get rid of most of the code inside of [Main.scala](src/main/scala/airportmatching/Main.scala). The code there was provided as an example, to manually pump data out of a CSV and then print the result progressively to `stdout`.
 
-In a real-life setting, the main function would likely instanciate a source bridge that would
+In a real-life setting, the main function would likely instantiate a source bridge that would
 produce a stream, which would be piped to the destination bridge.
 
 With real bridges in place, we would also be able to write proper integration and end-to-end tests,
