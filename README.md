@@ -44,7 +44,7 @@ location, and matching each of them with the nearest airport.
 
 For the purpose of this demonstration, we will be consuming rows from a CSV file, and printing them
 to `stdout`. In a real-world setting, this service would likely consume a stream (Kafka, Kinesis,
-RabbitMQ, etc.) and write its results to storage medium such as a database (for example Cassandra)
+RabbitMQ, etc.) and write its results to a storage medium such as a database (for example Cassandra)
 or a filesystem.
 
 This exercise only focuses on the part "in-between", where we match every user with an airport.
